@@ -24,8 +24,8 @@ as.numeric(section1$"Number.of.clients")
 serviceTypes <- c(
   "Adult Education",
   "Arts and Culture",
-  "Community, Economic Development, Workfoce",
-  "Education (K-12)",
+  "Community, Economic Development, Workforce",
+  "Education ",
   "Homelessness",
   "Human Services/Mental Health",
   "Policy & Advocacy",
@@ -36,6 +36,9 @@ serviceTypesValues <- 1:length(serviceTypes); serviceTypesValues
 for(i in 1:length(serviceTypes)) {
   serviceTypesValues[i] <- nrow(subset(section1, str_detect(section1$"Types.of.services", serviceTypes[i])))
 }
+serviceTypes[3] <- "Community, \n Workforce, etc."
+serviceTypes[4] <- "Education (K-12)"
+serviceTypes[6] <- "Human Services/ \n Mental Health"
 
 internet <- c("Yes", "No", "I'm not sure")
 internetValues <- 1:length(internet); internetValues
@@ -57,10 +60,25 @@ for(i in 1:length(sufficient)) {
 
 ##################################################
 # Plots
-barplot(height=serviceTypesValues, names.arg=serviceTypes, las=2, main="What type of services does your organization provide?", ylab="Frequency")
-barplot(height=internetValues, names.arg=internet, las=2, main="Are you providing services that require that your clients use the internet?", ylab="Frequency")
-barplot(height=deviceValues, names.arg=device, las=2, main="Are you providing services that require that your clients to use a digital device (computer, tablet, smart phone)?", ylab="Frequency")
-barplot(height=sufficientValues, names.arg=sufficient, las=2, main="Do your clients have sufficient internet connectivity to access services and obtain essentials?", ylab="Frequency")
+png(file="~/Desktop/HODP-Digital-Equity/section1_Services_Barplot.png", width=1000, height=500)
+barplot(height=serviceTypesValues, names.arg=serviceTypes, las=1, ylim=c(0,20), ylab="Frequency",
+        main="What type of services does your organization provide?")
+dev.off()
+
+png(file="~/Desktop/HODP-Digital-Equity/section1_Internet_Barplot.png")
+barplot(height=internetValues, names.arg=internet, las=1, ylim=c(0, 50), ylab="Frequency",
+        main="Are you providing services that require \n that your clients use the internet?")
+dev.off()
+
+png(file="~/Desktop/HODP-Digital-Equity/section1_Device_Barplot.png")
+barplot(height=deviceValues, names.arg=device, las=1, ylim=c(0, 50), ylab="Frequency",
+        main="Are you providing services that require that \n your clients to use a digital device \n (computer, tablet, smart phone)?")
+dev.off()
+
+png(file="~/Desktop/HODP-Digital-Equity/section1_Sufficient_Barplot.png")
+barplot(height=sufficientValues, names.arg=sufficient, las=1, ylim=c(0, 50), ylab="Frequency",
+        main="Do your clients have sufficient internet connectivity \n to access services and obtain essentials?")
+dev.off()
 ##################################################
 
 
