@@ -1,4 +1,4 @@
-# Lucas Pao, ...
+# Lucas Pao, Leo Saenger
 # Digital Equity
 
 library(stringr)
@@ -6,7 +6,7 @@ library(stringr)
 # Make sure to reset your working directory to HODP-Digital-Equity
 # setwd("~/Desktop/HODP-Digital-Equity")
 data <- read.csv("digital equity.csv")
-names <- colnames(digitalEquityData); names
+names <- colnames(data); names
 colnames(data)[2] <- "Email"
 colnames(data)[3] <- "Name"
 colnames(data)[4] <- "Organization"
@@ -109,4 +109,41 @@ sufficientIdk <- subset(section1, str_detect(section1$"Sufficient.internet", "I"
 
 # Section 2 ---------------------------------------------------------------
 
+
+# Section 3 ---------------------------------------------------------------
+## Leo Saenger
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+
+section3 <- data %>%
+  dplyr::select(2:8, 13:16, 21) %>%
+  rename(requireInternet = Clients.require.internet) %>%
+  rename(requireDevice = Clients.require.device) %>%
+  rename(internet = Sufficient.internet) %>%
+  rename(device = Do.your.clients.have.a.digital.device..computer..tablet..smartphone..to.access.services.and.obtain.essentials.)
+section3$internet <- factor(section3$internet, levels = c("All of my clients have sufficient internet connection",
+                                                          "Most of my clients have sufficient internet connection",
+                                                          "Some of my clients have sufficient internet connection",
+                                                          "None of my clients have sufficient internet connection",
+                                                          "I don’t know"))
+section3$device <- factor(section3$device, levels = c("All of my clients have a digital device",
+                                                          "Most of my clients have a digital device",
+                                                          "Some of my clients have a digital device",
+                                                          "None of my clients have a digital device",
+                                                          "I don’t know"))
+p1 <- ggplot(section3 %>% filter(requireInternet=="Yes")
+             %>% group_by(internet) %>% summarize(n = n()) %>% filter(!is.na(internet)), aes(x=internet, y=n)) +
+  geom_bar(stat="identity") + coord_flip() +
+  scale_y_continuous(limits=c(NA,25)) +
+  geom_text(aes(label=ifelse(n > 2, n, "")), hjust=2, color="white", size=3.5)
+p1
+p2 <- ggplot(section3 %>% filter(requireDevice=="Yes") %>% group_by(device) %>% summarize(n = n()), aes(x=device, y=n)) +
+  geom_bar(stat="identity") + coord_flip() +
+  scale_y_continuous(limits=c(NA,25)) +
+  geom_text(aes(label=ifelse(n > 2, n, "")), hjust=2, color="white", size=3.5)
+p2
+ggarrange(p1 + rremove("ylab"), p2 + rremove("y.text") + rremove("ylab"), 
+          labels = c("Internet needs", "Device needs"),
+          ncol = 2, nrow = 1)
 
