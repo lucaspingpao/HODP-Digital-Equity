@@ -1,4 +1,6 @@
 data <- read.csv("/Users/EthanLee/Desktop/Clubs/HODP/HODP-Digital-Equity/digital equity.csv")
+library(magick)
+logo <- image_read("logo.png")
 
 serviceTypes <- c(
   "Adult Education",
@@ -42,11 +44,13 @@ groupedTypesDevice <- cbind(typesInOrder, devicePerType)
 cleanGroupedTypesDevice <- na.omit(groupedTypesDevice)
 print(table(cleanGroupedTypesDevice[,1], cleanGroupedTypesDevice[,2]))
 
+par(bg = "#F2F2F2")
 barplot(table(cleanGroupedTypes[,2], cleanGroupedTypes[,1]), main="Are You Providing Services that Require Your Clients to Use the Internet?",
         xlab="Service Type", col=c("#78C4D4","#FA9E1C", "#EE3838"),
         legend = rownames(table(cleanGroupedTypes[,2], cleanGroupedTypes[,1])), beside=TRUE)
 
-barplot(table(cleanGroupedTypesDevice[,2], cleanGroupedTypesDevice[,1]), main="Are You Providing Services that Requires Your Clients to Use a Digital Device?",
+par(bg = "#F2F2F2")
+barplot(table(cleanGroupedTypesDevice[,2], cleanGroupedTypesDevice[,1]), main="Are You Providing Services that Require Your Clients to Use a Digital Device?",
         xlab="Service Type", col=c("#FA9E1C", "#EE3838"),
         legend = rownames(table(cleanGroupedTypesDevice[,2], cleanGroupedTypesDevice[,1])), beside=TRUE)
 
