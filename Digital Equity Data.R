@@ -58,26 +58,28 @@ for(i in 1:length(sufficient)) {
   sufficientValues[i] <- nrow(subset(section1, str_detect(section1$"Sufficient.internet", sufficient[i])))
 }
 
+
 ##################################################
 # Plots
+par(bg = "#F2F2F2", ps=11)
 png(file="~/Desktop/HODP-Digital-Equity/section1_Services_Barplot.png", width=1000, height=500)
-barplot(height=serviceTypesValues, names.arg=serviceTypes, las=1, ylim=c(0,20), ylab="Frequency",
-        main="What type of services does your organization provide?")
+g <- barplot(height=serviceTypesValues, names.arg=serviceTypes, las=1, ylim=c(0,20), ylab="Frequency",
+        main="What type of services does your organization provide?", col="#595959", font.main=2)
 dev.off()
 
 png(file="~/Desktop/HODP-Digital-Equity/section1_Internet_Barplot.png")
 barplot(height=internetValues, names.arg=internet, las=1, ylim=c(0, 50), ylab="Frequency",
-        main="Are you providing services that require \n that your clients use the internet?")
+        main="Are you providing services that require \n that your clients use the internet?",col="#595959", font.main=2)
 dev.off()
 
 png(file="~/Desktop/HODP-Digital-Equity/section1_Device_Barplot.png")
 barplot(height=deviceValues, names.arg=device, las=1, ylim=c(0, 50), ylab="Frequency",
-        main="Are you providing services that require that \n your clients to use a digital device \n (computer, tablet, smart phone)?")
+        main="Are you providing services that require that \n your clients to use a digital device \n (computer, tablet, smart phone)?",col="#595959", font.main=2)
 dev.off()
 
 png(file="~/Desktop/HODP-Digital-Equity/section1_Sufficient_Barplot.png")
 barplot(height=sufficientValues, names.arg=sufficient, las=1, ylim=c(0, 50), ylab="Frequency",
-        main="Do your clients have sufficient internet connectivity \n to access services and obtain essentials?")
+        main="Do your clients have sufficient internet connectivity \n to access services and obtain essentials?",col="#595959", font.main=2)
 dev.off()
 ##################################################
 
